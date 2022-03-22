@@ -59,7 +59,7 @@ def get_net(name, device):
     elif name == 'SVHN':
         return Net(SVHN_Net, params[name], device)
     elif name == 'CIFAR10':
-        return Net(CIFAR10_Net, params[name], device)
+        return Net(CIFAR10_VGG16_Net, params[name], device)
     else:
         raise NotImplementedError
     
