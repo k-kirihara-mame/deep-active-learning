@@ -59,6 +59,7 @@ if args.log_file:
   f = open(args.log_file, 'w') 
   f.write(str(acc))
   f.write("\n")
+  f.close()
   
 
 for rd in range(1, args.n_round+1):
@@ -77,7 +78,7 @@ for rd in range(1, args.n_round+1):
     print(f"Round {rd} testing accuracy: {acc}")
 
     if args.log_file:
+      f = open(args.log_file, 'a') 
       f.write(str(acc))
       f.write("\n")
-
-f.close()
+      f.close()
