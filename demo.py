@@ -23,6 +23,7 @@ parser.add_argument('--strategy_name', type=str, default="RandomSampling",
                              "BALDDropout", 
                              "AdversarialBIM", 
                              "AdversarialDeepFool"], help="query strategy")
+parser.add_argument('--log_file', type=str, default="", help="log file path")
 args = parser.parse_args()
 pprint(vars(args))
 print()
@@ -51,7 +52,14 @@ print()
 print("Round 0")
 strategy.train()
 preds = strategy.predict(dataset.get_test_data())
-print(f"Round 0 testing accuracy: {dataset.cal_test_acc(preds)}")
+acc = dataset.cal_test_acc(preds)
+print(f"Round 0 testing accuracy: {acc}")
+
+if args.log_file:
+  f = open('args.log_file', 'w') 
+  f.write(str(acc))
+  f.write("\n")
+  
 
 for rd in range(1, args.n_round+1):
     print(f"Round {rd}")
@@ -65,4 +73,11 @@ for rd in range(1, args.n_round+1):
 
     # calculate accuracy
     preds = strategy.predict(dataset.get_test_data())
-    print(f"Round {rd} testing accuracy: {dataset.cal_test_acc(preds)}")
+    acc = dataset.cal_test_acc(preds)
+    print(f"Round {rd} testing accuracy: {acc}")
+
+    if args.log_file:
+      f.write(str(acc))
+      f.write("\n")
+
+f.close()
