@@ -160,7 +160,7 @@ class CIFAR10_Net(nn.Module):
         return 50
 
 class CIFAR10_VGG16_Net(nn.Module):
-    def __init__(self, vgg_name):
+    def __init__(self):
         super(VGGFeat, self).__init__()
         cfg = [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 'M', 512, 512, 512, 'M', 512, 512, 512, 'M']
         self.features = self._make_layers(cfg)
