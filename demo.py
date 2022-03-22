@@ -56,7 +56,7 @@ acc = dataset.cal_test_acc(preds)
 print(f"Round 0 testing accuracy: {acc}")
 
 if args.log_file:
-  f = open('args.log_file', 'w') 
+  f = open(args.log_file, 'w') 
   f.write(str(acc))
   f.write("\n")
   
