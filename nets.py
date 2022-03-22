@@ -169,10 +169,10 @@ class CIFAR10_VGG16_Net(nn.Module):
 
     def forward(self, x):
         out = self.features(x)
-        out_f = out.view(out.size(0), -1)
-        out = self.fcl(out_f)
-        out = self.classifier(out)
-        return out, out_f
+        out = out.view(out.size(0), -1)
+        e1 = self.fcl(out)
+        out = self.classifier(e1)
+        return out, e1
 
     def _make_layers(self, cfg):
         layers = []
