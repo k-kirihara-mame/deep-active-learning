@@ -164,13 +164,11 @@ class CIFAR10_VGG16_Net(nn.Module):
         super(CIFAR10_VGG16_Net, self).__init__()
         cfg = [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 'M', 512, 512, 512, 'M', 512, 512, 512, 'M']
         self.features = self._make_layers(cfg)
-        self.fcl = nn.Linear(512, 50)
-        self.classifier = nn.Linear(50, 10)
+        self.classifier = nn.Linear(512, 10)
 
     def forward(self, x):
         out = self.features(x)
-        out = out.view(out.size(0), -1)
-        e1 = self.fcl(out)
+        e1 = out.view(out.size(0), -1)
         out = self.classifier(e1)
         return out, e1
 
@@ -189,4 +187,4 @@ class CIFAR10_VGG16_Net(nn.Module):
         return nn.Sequential(*layers)  
     
     def get_embedding_dim(self):
-        return 50
+        return 512
