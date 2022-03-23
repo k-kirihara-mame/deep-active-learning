@@ -57,4 +57,4 @@ def get_SVHN(handler):
 def get_CIFAR10(handler):
     data_train = datasets.CIFAR10('./data/CIFAR10', train=True, download=True)
     data_test = datasets.CIFAR10('./data/CIFAR10', train=False, download=True)
-    return Data(data_train.data[:40000], torch.LongTensor(data_train.targets)[:40000], data_test.data[:40000], torch.LongTensor(data_test.targets)[:40000], handler)
+    return Data(data_train.data[:50000], torch.LongTensor(data_train.targets)[:50000], data_test.data[:40000], torch.LongTensor(data_test.targets)[:40000], handler)
