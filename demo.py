@@ -3,6 +3,7 @@ import numpy as np
 import torch
 from utils import get_dataset, get_net, get_strategy
 from pprint import pprint
+import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--seed', type=int, default=1, help="random seed")
@@ -24,6 +25,7 @@ parser.add_argument('--strategy_name', type=str, default="RandomSampling",
                              "AdversarialBIM", 
                              "AdversarialDeepFool"], help="query strategy")
 parser.add_argument('--log_file', type=str, default="", help="log file path")
+parser.add_argument('--save_file_dir', type=str, default="", help="save file dir")
 args = parser.parse_args()
 pprint(vars(args))
 print()
@@ -56,10 +58,17 @@ acc = dataset.cal_test_acc(preds)
 print(f"Round 0 testing accuracy: {acc}")
 
 if args.log_file:
-  f = open(args.log_file, 'w') 
-  f.write(str(acc))
-  f.write("\n")
-  f.close()
+    f = open(args.log_file, 'w') 
+    f.write(str(acc))
+    f.write("\n")
+    f.close()
+
+
+if args.save_file_dir:
+    if not os.path.exists(args.save_file_dir):
+        os.makedirs(args.save_file_dir)
+        
+    torch.save({"strategy":strategy, "rd":0, "n_rd":args.n_round+1, "n_init":args.n_init_labeled, "n_query":args.n_query}, os.path.join(args.save_file_dir, "save_0.pth"))
   
 
 for rd in range(1, args.n_round+1):
@@ -78,7 +87,16 @@ for rd in range(1, args.n_round+1):
     print(f"Round {rd} testing accuracy: {acc}")
 
     if args.log_file:
-      f = open(args.log_file, 'a') 
-      f.write(str(acc))
-      f.write("\n")
-      f.close()
+        f = open(args.log_file, 'a') 
+        f.write(str(acc))
+        f.write("\n")
+        f.close()
+        
+        
+        
+        
+    if args.save_file_dir:
+        if not os.path.exists(args.save_file_dir):
+            os.makedirs(args.save_file_dir)
+
+        torch.save({"strategy":strategy, "rd":rd, "n_rd":args.n_round+1, "n_init":args.n_init_labeled, "n_query":args.n_query}, os.path.join(args.save_file_dir, "save_" + str(rd) + ".pth"))
